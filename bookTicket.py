@@ -26,16 +26,19 @@ import csv
 
 
 
-
+##----------------------------------
+##uncommentting it will hide the browser window
+##-----------------------------------
 #display = Display(visible=0, size=(1920,1280))
 #display.start()
 
+## For integrating it through Mobile Application 
 socialcops_website = 'https://collect.socialcops.org/#login'
-email = 'pmprakhargenius@gmail.com'
-password_social = 'mishra2121'
-
+email = 'Your registered id'
+password_social = 'your password'
 
 driver = webdriver.Firefox()
+
 # # Open socialcops 'collect' website get the user credetials
 driver.get(socialcops_website)
 
@@ -67,8 +70,8 @@ time.sleep(20)
 # Wait for email to come
 #Open Gmail and download data
 
-username_gmail = 'pmprakhargenius@gmail.com'
-password_gmail = 'asddsazxccxz'
+username_gmail = 'your gmail id'
+password_gmail = 'your gmail password'
 
 ## GMAIL AUTHENTICATION
 def gmail_authenticate(u,p):
@@ -82,7 +85,7 @@ def parse_email(r):
     final_link = inter_link[0].replace('=\\r\\n','')
     return final_link
 
-
+## opens gmail and fetches the email with given subject to download the data
 def get_mail_uid(u):
     u.select("inbox")
     result , data = u.uid('search', None, '(HEADER Subject "SocialCops Collect : Raw Data Report")')
@@ -91,15 +94,19 @@ def get_mail_uid(u):
     raw_email = data[0][1]
     return latest_email_uid, raw_email
 
+## Downloads the data into local file system
 def download_data(u):
     urllib.urlretrieve(u, filename="/home/prakhar/Desktop/scraping/Reservation/data.csv")
 
+
+## Authenticates gmail credentials for user
 mail = gmail_authenticate(username_gmail,password_gmail)
 print 'Gmail Authentication Successful !!\n'
 raw_email = get_mail_uid(mail)
 link_to_data = parse_email(raw_email)
 print link_to_data
 download_data(link_to_data)
+
 
 
 
@@ -147,11 +154,10 @@ MOBILE_NO = data_dict['Mobile']
 
 driver = webdriver.Firefox()
 
-
+## Now Open irctc website
 irctc_website = 'https://www.irctc.co.in/eticketing/loginHome.jsf'
-user_name = 'anilkr_15'
-pwd = 'mishranita'
-
+user_name = 'IRCTC user name'
+pwd = 'IRCTC password'
 
 driver.get(irctc_website)
 
@@ -266,15 +272,14 @@ submitPassengerDetails = driver.find_element_by_id('validate').click()
 
 time.sleep(1)
 
+## For debit card
 clickDebitCard = driver.find_element_by_id('DEBIT_CARD').click()
 
-
+## for icici bank 
 icici_debit_radio = driver.find_element_by_xpath(".//*[@type='radio'][@value='41']")
 icici_debit_radio.click()
 
 finalSubmit = driver.find_element_by_id('validate').click()
-
-
 
 
 ## Checkout Details - card payment
@@ -283,10 +288,10 @@ cardType = Select(driver.find_element_by_name('CardTypeSelectBox'))
 cardType.select_by_visible_text(TYPE_OF_CARD)
 
 time.sleep(3)
-CARD_NO1 = '4693'
-CARD_NO2 = '7510'
-CARD_NO3 = '5205'
-CARD_NO4 = '5227'
+CARD_NO1 = 'card number first four digits'
+CARD_NO2 = 'card number next four digits'
+CARD_NO3 = 'card number next four digits'
+CARD_NO4 = 'card number last four digits'
 cardNumber = driver.find_element_by_name('CardNum1').send_keys(CARD_NO1)
 time.sleep(1)
 cardNumber = driver.find_element_by_name('CardNum2').send_keys(CARD_NO2)
@@ -297,8 +302,8 @@ cardNumber = driver.find_element_by_name('CardNum4').send_keys(CARD_NO4)
 
 time.sleep(3)
 
-EXP_MONTH = '10'
-EXP_YEAR = '2024'
+EXP_MONTH = 'Enter Month (eg. 12 for December)'
+EXP_YEAR = 'Enter Year (eg. 2014')
 expiryDate = Select(driver.find_element_by_name('ExpDtMon'))
 expiryDate.select_by_value(EXP_MONTH)
 expiryDate = Select(driver.find_element_by_name('ExpDtYr'))
@@ -306,19 +311,21 @@ expiryDate.select_by_value(EXP_YEAR)
 
 time.sleep(3)
 
-CVV = '127'
+CVV = 'Enter CVV here'
 cvvDetails = driver.find_element_by_name('CVVNum')
 cvvDetails.send_keys(CVV)
 
 time.sleep(3)
 
-NAME_CARDHOLDER = 'Prakhar Mishra'
+## inserts the Name on card details
+NAME_CARDHOLDER = 'Enter Name on card'
 nameOfCardHolder = driver.find_element_by_name('NameOnCard')
 nameOfCardHolder.send_keys(NAME_CARDHOLDER)
 
 time.sleep(3)
 
-ATM = '1963'
+## Inserts the ATM pin
+ATM = 'Enter Atm Pin in case of ICICI transaction'
 atmPinDetails = driver.find_element_by_name("ATMPIN")
 atmPinDetails.send_keys(ATM)
 
